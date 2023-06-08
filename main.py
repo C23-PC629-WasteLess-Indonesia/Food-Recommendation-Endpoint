@@ -50,13 +50,13 @@ async def predict(req: RequestText, response: Response):
             req.keripik_kerupukT,
             req.buah_minumanT,
         ]
-        input_model=np.array(feature, dtype=np.float32)
-
+        input_model = np.array(feature, dtype=np.float32)
         #TODO
         #Lakukan normalisasi atau standarisasi saat kalian membuat modelnya
         scaler = StandardScaler()
+        input_model = np.reshape(input_model,(-1,12))
         input_model = scaler.fit_transform(input_model)
-        input_model=np.reshape(input_model,(1,-1))
+        print(input_model)
         result = model.predict(input_model)
         
         # Kak Kaenova Guess, output menggunakan softmax
