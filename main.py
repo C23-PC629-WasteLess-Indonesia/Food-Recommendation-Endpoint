@@ -6,6 +6,7 @@ import uvicorn
 import traceback
 import tensorflow as tf
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 
 # Init priority instances
 app = FastAPI()
@@ -53,7 +54,8 @@ async def predict(req: RequestText, response: Response):
 
         #TODO
         #Lakukan normalisasi atau standarisasi saat kalian membuat modelnya
-
+        scaler = StandardScaler()
+        input_model = scaler.fit_transform(input_model)
         input_model=np.reshape(input_model,(1,-1))
         result = model.predict(input_model)
         
