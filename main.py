@@ -4,6 +4,8 @@ from fastapi import FastAPI, Response, status
 from pydantic import BaseModel
 import uvicorn
 import traceback
+import tensorflow as tf
+import numpy as np
 
 # Init priority instances
 app = FastAPI()
@@ -23,6 +25,7 @@ class RequestText(BaseModel):
     keripik_kerupukT: float
     buah_minumanT: float
 
+model = tf.keras.saving.load_model("model.h5")
 
 @app.get("/")
 async def index():
@@ -46,9 +49,19 @@ async def predict(req: RequestText, response: Response):
             req.keripik_kerupukT,
             req.buah_minumanT,
         ]
+        input_model=np.array(feature, dtype=np.float32)
 
+        #TODO
+        #Lakukan normalisasi atau standarisasi saat kalian membuat modelnya
 
-        return feature
+        input_model=np.reshape(input_model,(1,-1))
+        result = model.predict(input_model)
+        
+        # Kak Kaenova Guess, output menggunakan softmax
+        result = np.argmax(result,axis=1)
+        print(result)
+
+        return int(result[0]) 
     except Exception as e:
         traceback.print_exc()
         response.status_code = 500
