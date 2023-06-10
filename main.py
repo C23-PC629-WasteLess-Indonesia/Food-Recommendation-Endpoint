@@ -7,6 +7,7 @@ import traceback
 import tensorflow as tf
 import numpy as np
 from sklearn.preprocessing import StandardScaler
+import os
 
 # Init priority instances
 app = FastAPI()
@@ -30,7 +31,7 @@ model = tf.keras.saving.load_model("model.h5")
 
 @app.get("/")
 async def index():
-    return "Hello from sentiment prediction endpoint"
+    return "Hello food recommendation endpoint!"
 
 
 @app.post("/")
@@ -70,6 +71,6 @@ async def predict(req: RequestText, response: Response):
         return {"message": "Internal Server Error"}
 
 
-port = 8001
+port = os.environ.get("PORT", 8001)
 print(f"Listening to http://0.0.0.0:{port}")
 uvicorn.run(app, host="0.0.0.0", port=port)
