@@ -1,12 +1,12 @@
-FROM python:3.10.3-slim-buster
+FROM python:3.9
 
 WORKDIR /app
 
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY . .
-
-RUN pip install -r requirements.txt
-
-ENV PYTHONUNBUFFERED=1
 
 ENV HOST 0.0.0.0
 
