@@ -71,6 +71,6 @@ async def predict(req: RequestText, response: Response):
         return {"message": "Internal Server Error"}
 
 
-port = os.environ.get("PORT", 8001)
+port = os.environ.get("PORT", 8080)
 print(f"Listening to http://0.0.0.0:{port}")
 uvicorn.run(app, host="0.0.0.0", port=port)
